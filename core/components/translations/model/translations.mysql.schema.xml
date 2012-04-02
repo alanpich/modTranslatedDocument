@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="translations" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM">
+   
+    <object class="modTranslatedDocument" extends="modResource" />
+    
+	<object class="Translation" table="translations" extends="xPDOSimpleObject">
+		<field key="articleID" dbtype="int" precision="11" phptype="integer" null="false" />
+		<field key="language" dbtype="varchar" precision="4" phptype="string" null="false" />
+		<field key="pagetitle" dbtype="varchar" precision="255" phptype="string" null="false" />
+		<field key="longtitle" dbtype="varchar" precision="255" phptype="string" null="false" />
+		<field key="menutitle" dbtype="varchar" precision="255" phptype="string" null="false" />
+		<field key="description" dbtype="text" phptype="string" null="false" />
+		<field key="introtext" dbtype="text" phptype="string" null="false" />
+		<field key="content" dbtype="text" phptype="string" null="false" />
+	</object>
+
+</model>
+
