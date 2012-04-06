@@ -78,6 +78,18 @@ public function getContent(array $options = array()) {
 	 return $value;
  }//
 	
+	
+	
+	
+    /**
+     * Use this in your extended Resource class to modify the tree node contents
+     * @param array $node
+     * @return array
+     */
+    public function prepareTreeNode(array $node = array()) {
+        return $node;
+    }
+
 //=======================================================================================================================================================
 //=======================================================================================================================================================
 	

@@ -5,7 +5,7 @@ MODx.panel.Resource = function(config) {
         url: MODx.config.connectors_url+'resource/index.php'
         ,baseParams: {}
         ,id: 'modx-panel-resource'
-        ,class_key: 'modDocument'
+        ,class_key: 'modTranslatedDocument'
         ,resource: ''
         ,bodyStyle: ''
 		,cls: 'container form-with-labels'
@@ -31,7 +31,7 @@ MODx.panel.Resource = function(config) {
 };
 Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
     initialized: false
-    ,defaultClassKey: 'modDocument'
+    ,defaultClassKey: 'modTranslatedDocument'
     ,classLexiconKey: 'document'
     ,rteElements: 'ta'
     ,rteLoaded: false
@@ -202,6 +202,24 @@ Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
             ,items: this.getMainFields(config)
         });
         it.push({
+            id: 'modx-page-translations'
+            ,title: _('translations')
+            ,cls: 'modx-resource-tab'
+            ,layout: 'form'
+            ,forceLayout: true
+            ,deferredRender: false
+            ,labelWidth: 200
+            ,bodyCssClass: ''
+            ,autoHeight: true
+            ,border:false
+            ,defaults: {
+                border: true
+                ,msgTarget: 'under'
+            }
+            ,items: this.getTranslationFields(config)
+          
+        });
+        it.push({
             id: 'modx-page-settings'
             ,title: _('settings')
             ,cls: 'modx-resource-tab'
@@ -215,7 +233,7 @@ Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
                 border: false
                 ,msgTarget: 'under'
             }
-            ,items: this.getSettingFields(config)
+			,items: this.getSettingFields(config)
         });
         if (config.show_tvs && MODx.config.tvs_below_content != 1) {
             it.push(this.getTemplateVariablesPanel(config));
@@ -277,6 +295,21 @@ Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
             ,anchor: '100%'
             ,border: true
         };
+    }
+    
+    
+    
+    ,getTranslationFields: function(config) {
+        return {
+            xtype: 'modx-panel-resource-translations'
+            ,collapsed: false
+            ,resource: config.resource
+            ,class_key: config.record.class_key || 'modDocument'
+            ,template: config.record.template
+            ,anchor: '100%'
+            ,border: true
+        };
+ 
     }
 
     ,getMainFields: function(config) {
