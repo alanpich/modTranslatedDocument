@@ -3,6 +3,7 @@ MODx.panel.Resource = function(config) {
     config.record = config.record || {};
     Ext.applyIf(config,{
         url: MODx.config.connectors_url+'resource/index.php'
+//		url: MODx.config.assets_url+'components/translations/connectors/resource/index.php'
         ,baseParams: {}
         ,id: 'modx-panel-resource'
         ,class_key: 'modTranslatedDocument'
@@ -133,7 +134,7 @@ Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
             location.href = location.href;
         } else {
             this.getForm().setValues(o.result.object);
-            Ext.getCmp('modx-page-update-resource').config.preview_url = o.result.object.preview_url;
+            Ext.getCmp('modx-page-translatedresource-update').config.preview_url = o.result.object.preview_url;
         }
     }
     ,failure: function(o) {
@@ -343,6 +344,16 @@ Ext.extend(MODx.panel.Resource,MODx.FormPanel,{
             }]
         },{
             html: MODx.onDocFormRender, border: false
+        },{
+            xtype: 'hidden'
+            ,fieldLabel: _('translations')
+            ,hideLabel: true
+            ,description: ''
+            ,name: 'translations'
+            ,id: 'modx-resource-translations-list'
+            ,anchor: '100%'
+            ,value: AvailableTranslations
+            ,submitValue: true
         },{
             xtype: 'hidden'
             ,fieldLabel: _('id')

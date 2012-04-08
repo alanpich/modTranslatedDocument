@@ -19,23 +19,23 @@ public function loadCustomCssJs() {
         $this->addJavascript($managerUrl.'assets/modext/widgets/resource/modx.panel.resource.tv.js');
         $this->addJavascript($managerUrl.'assets/modext/sections/resource/update.js');
        
+        $this->addJavascript($jsUrl.'mgr/sections/resource/update.js');
         $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.translations.js');
         $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.translations.tabs.js');
         $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.translations.form.js');
  	    $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.js');
-       $this->addCss($cssUrl.'translations.css');
+        $this->addCss($cssUrl.'translations.css');
 
 
 		$this->addHtml('
         <script type="text/javascript">
         // <![CDATA[
-        console.log('.$this->modx->toJSON($this->resourceArray).');
         MODx.config.publish_document = "'.$this->canPublish.'";
         MODx.onDocFormRender = "'.$this->onDocFormRender.'";
         MODx.ctx = "'.$this->resource->get('context_key').'";
         Ext.onReady(function() {
             MODx.load({
-                xtype: "modx-page-resource-update"
+                xtype: "modx-page-translatedresource-update"
                 ,resource: "'.$this->resource->get('id').'"
                 ,record: '.$this->modx->toJSON($this->resourceArray).'
                 ,publish_document: "'.$this->canPublish.'"
@@ -54,6 +54,8 @@ public function loadCustomCssJs() {
 		TranslatedArticleLanguages = "'.$this->context->getOption('translations.languages').'".split(",");
 		
 		AvailableTranslations = Array('.$this->getAvailableTranslationList().');
+		
+		TranslationsJSON = '.$this->resource->getTranslationsJSON().';
 				
         // ]]>
         </script>');

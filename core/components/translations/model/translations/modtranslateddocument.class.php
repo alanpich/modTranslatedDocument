@@ -1,4 +1,10 @@
 <?php
+require_once MODX_CORE_PATH.'model/modx/modprocessor.class.php';
+require_once MODX_CORE_PATH.'model/modx/processors/resource/create.class.php';
+
+require_once MODX_CORE_PATH.'model/modx/processors/resource/update.class.php';
+require_once dirname(dirname(dirname(__FILE__))).'/processors/mgr/resource/update.class.php';
+
 class modTranslatedDocument extends modResource {
 
 public $showInContextMenu = true;
@@ -111,6 +117,24 @@ private function lookForTranslations($field){
 		return false;
 
 	}//
+	
+	
+public function getTranslationsJSON(){
+	global $modx;
+		$JSON = array();
+		$query = $modx->newQuery('Translation');
+		$query->where(array(
+			'articleID' => $this->get('id'),
+		));
+		$translations = $modx->getCollection('Translation',$query);
+		foreach($translations as $T){
+			$row = $T->toArray();
+			$JSON[$row['language']] = $row;
+		};
+		
+		return json_encode($JSON);
+	
+}//
 
 
 private function getLanguage(){
