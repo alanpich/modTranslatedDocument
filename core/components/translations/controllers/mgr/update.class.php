@@ -18,11 +18,11 @@ public function loadCustomCssJs() {
         $this->addJavascript($managerUrl.'assets/modext/widgets/resource/modx.grid.resource.security.local.js');
         $this->addJavascript($managerUrl.'assets/modext/widgets/resource/modx.panel.resource.tv.js');
         $this->addJavascript($managerUrl.'assets/modext/sections/resource/update.js');
+        $this->addJavascript($managerUrl.'assets/modext/widgets/resource/modx.panel.resource.js');
        
         $this->addJavascript($jsUrl.'mgr/sections/resource/update.js');
         $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.translations.js');
         $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.translations.tabs.js');
-        $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.translations.form.js');
  	    $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.js');
         $this->addCss($cssUrl.'translations.css');
 

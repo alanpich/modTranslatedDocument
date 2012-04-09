@@ -107,8 +107,7 @@ Ext.extend(MODx.panel.TranslatableResource, MODx.panel.Resource, {
             ,template: config.record.template
             ,anchor: '100%'
             ,border: true
-        };
- 
+		};
     }
 });
 Ext.reg('modx-panel-resource',MODx.panel.TranslatableResource);
