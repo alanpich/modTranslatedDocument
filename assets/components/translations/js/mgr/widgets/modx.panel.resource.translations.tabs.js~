@@ -54,13 +54,13 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							,allowBlank: true
 							,enableKeyEvents: false
 							,value: TranslationsJSON[lang]['id'] || ''
-/*						},{
+						},{
 							xtype: 'textfield'
 							,fieldLabel: 'id'
 							,name: 'id'
 							,value: TranslationsJSON[lang]['id']
 							,allowBlank: true
-*/						},{
+						},{
 							xtype: 'textfield'
 							,fieldLabel: _('resource_pagetitle')+''
 							,description: '<b>[[*pagetitle]]</b><br />'+_('resource_pagetitle_help')

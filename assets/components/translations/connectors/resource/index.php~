@@ -8,3 +8,4 @@ $modx->request->handleRequest( array(
     'processors_path'   => $modx->getOption( 'core_path' ) . 'components/translations/processors/',
     'location'          => 'mgr/resource/'
 ) );
+?>

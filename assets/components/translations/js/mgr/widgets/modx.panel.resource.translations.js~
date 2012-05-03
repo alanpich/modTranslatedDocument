@@ -18,10 +18,6 @@ MODx.panel.ResourceTranslations = function(config) {
         ,header: false
         ,items:[{
         			xtype: 'modx-panel-resource-translations-tabs'
-        		},{
-        			xtype: 'hidden'
-        			,name: 'translations'
-        			,value: AvailableTranslations
         		}]
     });
     MODx.panel.ResourceTranslations.superclass.constructor.call(this,config);
