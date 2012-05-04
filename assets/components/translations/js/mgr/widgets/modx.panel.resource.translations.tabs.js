@@ -23,6 +23,14 @@ MODx.panel.ResourceTranslationsTabs = function(config) {
         ,cls: 'x-form-label-top x-tab-panel vertical-tabs-panel'
         ,autoHeight: true
         ,labelAlign: 'top'
+        ,listeners: {
+        		'beforetabchange': {fn: function(tabpanel,newtab,oldtab){
+        			if(newtab.id == 'newTranslationTab'){
+        				Ext.getCmp('modx-window-newtranslation').show();
+        				return false;
+        			};
+        		}}
+        	}
 
         ,items: this.getTranslationForms()
     });
@@ -40,12 +48,22 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
     // Returns Ext Tab Panels for each existing translation -------------------
     ,getTranslationForms: function(){
     	var items = Array();
+    		
     	var langs = AvailableTranslations;
     	for(var k=0;k<langs.length;k++){
     		lang = langs[k];
     		items.push({
 					title: _('translations.language.'+lang) || "Unknown ["+lang+']',
 					items: [{
+						xtype: 'toolbar'
+						,items:[
+							'<h2>'+_('translations.lang_translation',{lang:_('translations.language.'+lang)})+'</h2>'
+							,'->'
+							,{
+							xtype:'button'
+							,text: _('translations.remove_translation')
+						}]
+					},{
 							xtype: 'hidden'
 							,fieldLabel: ''
 							,description: ''
@@ -54,13 +72,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							,allowBlank: true
 							,enableKeyEvents: false
 							,value: TranslationsJSON[lang]['id'] || ''
-/*						},{
-							xtype: 'textfield'
-							,fieldLabel: 'id'
-							,name: 'id'
-							,value: TranslationsJSON[lang]['id']
-							,allowBlank: true
-*/						},{
+						},{
 							xtype: 'textfield'
 							,fieldLabel: _('resource_pagetitle')+''
 							,description: '<b>[[*pagetitle]]</b><br />'+_('resource_pagetitle_help')
@@ -121,6 +133,12 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 						}]
 				});
     	};
+    	items.push({
+    				title: _('translations.new_translation')
+    				,html: 'aaaa'
+    				,id: 'newTranslationTab'
+    				,iconCls: 'newLanguage'
+    			});
     	return items;
     }
 });

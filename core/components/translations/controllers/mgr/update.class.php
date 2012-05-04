@@ -3,7 +3,7 @@ class TranslatedDocumentUpdateManagerController extends ResourceUpdateManagerCon
 
 
 public function getLanguageTopics() {
-		return array('resource','translations:default');
+		return array('resource','translations:default','translations:languages');
 	}//
 	
 	
@@ -12,6 +12,7 @@ public function loadCustomCssJs() {
         $managerUrl = $this->context->getOption('manager_url', MODX_MANAGER_URL, $this->modx->_userConfig);
 		$jsUrl = $this->context->getOption('assets_url').'components/translations/js/';
 		$cssUrl = $this->context->getOption('assets_url').'components/translations/css/';
+		$connectorUrl = $this->context->getOption('assets_url').'components/translations/connector.php';
 		
         $this->addJavascript($managerUrl.'assets/modext/util/datetime.js');
         $this->addJavascript($managerUrl.'assets/modext/widgets/element/modx.panel.tv.renders.js');
@@ -24,6 +25,7 @@ public function loadCustomCssJs() {
         $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.translations.js');
         $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.translations.tabs.js');
  	    $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.js');
+ 	    $this->addJavascript($jsUrl.'mgr/widgets/modx.window.newtranslation.js');
         $this->addCss($cssUrl.'translations.css');
 
 
@@ -50,12 +52,17 @@ public function loadCustomCssJs() {
                 ,show_tvs: '.(!empty($this->tvCounts) ? 1 : 0).'
                 ,mode: "update"
             });
+            Ext.create({
+            	xtype: \'modx-window-newtranslation\'
+            });
         });
-		TranslatedArticleLanguages = "'.$this->context->getOption('translations.languages').'".split(",");
+		TranslatedArticleLanguages = "'.$this->getAllLanguages().'".split(",");
 		
 		AvailableTranslations = Array('.$this->getAvailableTranslationList().');
 		
 		TranslationsJSON = '.$this->resource->getTranslationsJSON().';
+		
+		TranslationsConnector = "'.$connectorUrl.'";
 				
         // ]]>
         </script>');
@@ -117,6 +124,15 @@ private function getAvailableTranslationList(){
 			$list[] = "'".$arr['language']."'";
 		};
 		return implode(',',$list);
+	}//
+	
+	
+public function getAllLanguages(){
+
+	
+
+	return $this->context->getOption('translations.languages');
+
 	}//
 	
 };// end class modTranslatedDocumentUpdateManagerController

@@ -7,19 +7,11 @@
     public function beforeSave() {
         $beforeSave = parent::beforeSave();
         
-        $this->modx->log(LOG_LEVEL_WARN,'modTranslatedDocument->beforeSave()');
-        
-        
         // Get all translated data as arrays
         $translations = $this->getTranslatedFields();
-        
-         	$this->modx->log(LOG_LEVEL_WARN,'  =>'.print_r($_REQUEST,true));
-          
+                 
         foreach($translations as $lang => $fields){
         	$row = $this->modx->getObject('Translation',$_REQUEST['TranslationID'.$lang]);
-        	
-        	$this->modx->log(LOG_LEVEL_WARN,'Setting data for object '.$lang.' '.$_REQUEST['TranslationID'.$lang]. '||');
-        	$this->modx->log(LOG_LEVEL_WARN,'  =>'.print_r($fields,true));
         	
 	    	$row->set('pagetitle',$fields['pagetitle']);
 	    	$row->set('longtitle',$fields['longtitle']);
@@ -30,7 +22,6 @@
         	$row->save();
         };
        
-        $this->modx->log(LOG_LEVEL_WARN,'modTranslatedDocument->beforeSave() complete');
         return $beforeSave;
     }
 
