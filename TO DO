@@ -1,9 +1,7 @@
 1) Rich Text Editor for Content field (if enabled for resource)
 
-2) Mark Resource as dirty on translation field edit
+2) Connect delete button to remove processor
 
-3) Connect delete button to remove processor
+3) Build remove processor
 
-4) Build remove processor
-
-5) Build Transport package
+4) Build Transport package
