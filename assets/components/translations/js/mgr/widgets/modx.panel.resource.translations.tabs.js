@@ -60,8 +60,24 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							'<h2>'+_('translations.lang_translation',{lang:_('translations.language.'+lang)})+'</h2>'
 							,'->'
 							,{
-							xtype:'button'
-							,text: _('translations.remove_translation')
+								xtype:'button'
+								,text: _('translations.remove_translation')
+								,handler: function(){
+									MODx.msg.confirm({
+									   title: _('translations.remove_lang_translation',{lang:_('translations.language.'+lang)})
+									   ,text: _('translations.remove_translation_msg')
+									   ,url: TranslationsConnector
+									   ,params: {
+										  id: TranslationsJSON[lang]['id']
+										  ,action: 'translation/remove'
+									   }
+									   ,listeners: {
+											'success':{fn: function(r) {
+												 document.location.href = document.location.href;
+											},scope:true}
+									   }
+									});
+								}
 						}]
 					},{
 							xtype: 'hidden'
@@ -140,7 +156,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
     	};
     	items.push({
     				title: _('translations.new_translation')
-    				,html: 'aaaa'
+    				,html: ''
     				,id: 'newTranslationTab'
     				,iconCls: 'newLanguage'
     			});
