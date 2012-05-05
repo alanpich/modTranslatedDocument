@@ -83,6 +83,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							,allowBlank: true
 							,enableKeyEvents: true
 							,value: TranslationsJSON[lang]['pagetitle'] || ''
+							,listeners: {'change': {fn:triggerDirtyField,scope:this}}
 						},{
 							xtype: 'textfield'
 							,fieldLabel: _('resource_longtitle')
@@ -92,6 +93,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							,maxLength: 255
 							,anchor: '100%'
 							,value: TranslationsJSON[lang]['longtitle'] || ''
+							,listeners: {'change': {fn:triggerDirtyField,scope:this}}
 						},{
 							xtype: 'textfield'
 							,fieldLabel: _('resource_menutitle')
@@ -101,6 +103,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							,maxLength: 255
 							,anchor: '100%'
 							,value: TranslationsJSON[lang]['menutitle'] || ''
+							,listeners: {'change': {fn:triggerDirtyField,scope:this}}
 						},{
 							xtype: 'textarea'
 							,fieldLabel: _('resource_description')
@@ -110,7 +113,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							,maxLength: 255
 							,anchor: '100%'
 							,value: TranslationsJSON[lang]['description'] || ''
-
+							,listeners: {'change': {fn:triggerDirtyField,scope:this}}
 						},{
 							xtype: 'textarea'
 							,fieldLabel: _('resource_summary')
@@ -120,6 +123,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							,grow: true
 							,anchor: '100%'
 							,value: TranslationsJSON[lang]['introtext'] || ''
+							,listeners: {'change': {fn:triggerDirtyField,scope:this}}
 						},{
 							xtype: 'textarea'
 							,fieldLabel: _('resource_content')
@@ -130,6 +134,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							,height: 400
 							,grow: false
 							,value: TranslationsJSON[lang]['content'] || ''
+							,listeners: {'change': {fn:triggerDirtyField,scope:this}}
 						}]
 				});
     	};
