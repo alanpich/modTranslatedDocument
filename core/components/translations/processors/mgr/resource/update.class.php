@@ -10,16 +10,16 @@
         // Get all translated data as arrays
         $translations = $this->getTranslatedFields();
                  
-        foreach($translations as $lang => $fields){
-        	$row = $this->modx->getObject('Translation',$_REQUEST['TranslationID'.$lang]);
-        	
-	    	$row->set('pagetitle',$fields['pagetitle']);
-	    	$row->set('longtitle',$fields['longtitle']);
-	    	$row->set('menutitle',$fields['menutitle']);
-	    	$row->set('introtext',$fields['introtext']);
-	    	$row->set('description',$fields['description']);
-	    	$row->set('content',$fields['content']);
-        	$row->save();
+        foreach($translations as $lang => $fields){      
+        	if(	$row = $this->modx->getObject('Translation',$_REQUEST['TranslationID'.$lang])){
+				$row->set('pagetitle',$fields['pagetitle']);
+				$row->set('longtitle',$fields['longtitle']);
+				$row->set('menutitle',$fields['menutitle']);
+				$row->set('introtext',$fields['introtext']);
+				$row->set('description',$fields['description']);
+				$row->set('content',$fields['content']);
+		    	$row->save();
+        	};
         };
        
         return $beforeSave;
