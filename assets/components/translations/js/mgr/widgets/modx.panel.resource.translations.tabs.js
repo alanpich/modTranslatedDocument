@@ -25,12 +25,21 @@ MODx.panel.ResourceTranslationsTabs = function(config) {
         ,labelAlign: 'top'
         ,listeners: {
         		'beforetabchange': {fn: function(tabpanel,newtab,oldtab){
+        		    if(oldtab==null){return;};
         			if(newtab.id == 'newTranslationTab'){
         				Ext.getCmp('modx-window-newtranslation').show();
         				return false;
         			};
         		}}
-        	}
+        		,'afterrender': {fn: function(){
+						if(MODx.config.use_editor && MODx.loadRTE){
+							  var langs = AvailableTranslations;
+							  for(var k=0;k<langs.length;k++){
+							  	MODx.loadRTE( 'ta-'+langs[k] );
+							  };
+						}
+					},scope:this}
+       	}
 
         ,items: this.getTranslationForms()
     });
@@ -50,6 +59,14 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
     	var items = Array();
     		
     	var langs = AvailableTranslations;
+    	
+    	if(langs.length<1){
+    		items.push({
+    			title: ''
+    			,html: 'Click \'New Translation\' to add a language'
+    		});
+    	};
+    	
     	for(var k=0;k<langs.length;k++){
     		lang = langs[k];
     		items.push({
@@ -80,7 +97,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 								}
 						}]
 					},{
-							xtype: 'hidden'
+							xtype: 'textfield'
 							,fieldLabel: ''
 							,description: ''
 							,name: 'TranslationID'+lang
@@ -146,6 +163,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							,description: '<b>[[*content]]</b><br />'+_('resource_content_help')
 							,name: 'ta-'+lang
 							,id: 'ta-'+lang
+							,cls: 'translationContentField'
 							,anchor: '100%'
 							,height: 400
 							,grow: false
