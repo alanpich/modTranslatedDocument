@@ -12,6 +12,7 @@ MODx.panel.ResourceTranslationsTabs = function(config) {
         id: 'modx-panel-resource-translations-tabs'
         ,title: _('translations')
         ,header: true
+		,deferredRender: false
         ,headerCfg: {
 		    tag: 'div',
 		    id: 'modx-resource-vtabs-header',
@@ -31,14 +32,6 @@ MODx.panel.ResourceTranslationsTabs = function(config) {
         				return false;
         			};
         		}}
-        		,'afterrender': {fn: function(){
-						if(MODx.config.use_editor && MODx.loadRTE){
-							  var langs = AvailableTranslations;
-							  for(var k=0;k<langs.length;k++){
-							  	MODx.loadRTE( 'ta-'+langs[k] );
-							  };
-						}
-					},scope:this}
        	}
 
         ,items: this.getTranslationForms()
@@ -70,8 +63,16 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
     	for(var k=0;k<langs.length;k++){
     		lang = langs[k];
     		items.push({
-					title: _('translations.language.'+lang) || "Unknown ["+lang+']',
-					items: [{
+					title: _('translations.language.'+lang) || "Unknown ["+lang+']'
+					,lang: langs[k]
+					,listeners: {
+						'show': {fn: function(){
+							if(MODx.config.use_editor && MODx.loadRTE){
+								  MODx.loadRTE( 'content'+this.activeTab.lang );
+							}
+						},scope:this}
+					}
+					,items: [{
 						xtype: 'toolbar'
 						,items:[
 							'<h2>'+_('translations.lang_translation',{lang:_('translations.language.'+lang)})+'</h2>'
@@ -97,7 +98,7 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 								}
 						}]
 					},{
-							xtype: 'textfield'
+							xtype: 'hidden'
 							,fieldLabel: ''
 							,description: ''
 							,name: 'TranslationID'+lang
@@ -161,8 +162,8 @@ Ext.extend(MODx.panel.ResourceTranslationsTabs,MODx.VerticalTabs,{
 							xtype: 'textarea'
 							,fieldLabel: _('resource_content')
 							,description: '<b>[[*content]]</b><br />'+_('resource_content_help')
-							,name: 'ta-'+lang
-							,id: 'ta-'+lang
+							,name: 'content'+lang
+							,id: 'content'+lang
 							,cls: 'translationContentField'
 							,anchor: '100%'
 							,height: 400

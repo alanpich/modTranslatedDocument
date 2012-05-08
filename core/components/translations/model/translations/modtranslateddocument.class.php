@@ -10,11 +10,13 @@ class modTranslatedDocument extends modResource {
 public $showInContextMenu = true;
 
 function __construct(xPDO & $xpdo) {
+		global $modx;
         parent :: __construct($xpdo);
         $this->set('class_key','modTranslatedDocument');
 		
-		$language = $xpdo->getOption('cultureKey');
-		$this->language = $language;
+	
+		$language = $modx->getOption('cultureKey');
+		$this->language = $modx->getOption('cultureKey');
 		$this->_cacheKey = '[contextKey]/resources/'.$language.'/[id]';
 		
 		$this->_pagetitle = "arse";
@@ -70,6 +72,7 @@ public function getContent(array $options = array()) {
 
 // Override get for translations -----------------------------------
  public function get( $key ){
+	 global $modx;
 	 $orig = parent::get($key);
 	 
 	 $translated = array('pagetitle','longtitle','description','introtext','menutitle','content');
@@ -102,10 +105,12 @@ public function getContent(array $options = array()) {
 private function lookForTranslations($field){
 		global $modx;
 		
+		$language = $modx->getOption('cultureKey');
+		
 		$query = $modx->newQuery('Translation');
 		$query->where(array(
 			'articleID' => $this->get('id'),
-			'language' => $this->language
+			'language' => $language
 		));
 		$translations = $modx->getCollection('Translation',$query);
 		$value = '';

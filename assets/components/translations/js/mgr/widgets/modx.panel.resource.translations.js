@@ -16,6 +16,7 @@ MODx.panel.ResourceTranslations = function(config) {
         ,cls: 'x-form-label-top x-tab-panel vertical-tabs-panel '
         ,autoHeight: true
         ,header: false
+		,deferredRender: false
         ,items:[{
         			xtype: 'modx-panel-resource-translations-tabs'
         		},{
