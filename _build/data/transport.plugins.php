@@ -29,15 +29,7 @@ $events['OnHandleRequest']->fromArray(array(
 ),'',true,true);
 
 
-// Bind events to plugin -------------------------------------------------------------------------
-if (is_array($events) && !empty($events)) {
-    $plugins[0]->addMany($events);
-    $modx->log(xPDO::LOG_LEVEL_INFO,'  => Plugin Events bound OK.'); flush();
-} else {
-    $modx->log(xPDO::LOG_LEVEL_ERROR,'Could not find plugin events!');
-}
-unset($events); 
- 
+
  
  
 return $plugins;

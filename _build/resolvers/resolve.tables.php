@@ -9,9 +9,7 @@ if ($object->xpdo) {
  
             $manager = $modx->getManager();
             $manager->createObjectContainer('Translation');
-            
-      //      $modx->addExtensionPackage('translations',$modelPath)
- 
+             
             break;
         case xPDOTransport::ACTION_UPGRADE:
             break;
