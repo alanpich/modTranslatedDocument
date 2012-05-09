@@ -3,6 +3,9 @@
 	v1.0	May 2011
 */
 
+define('BUILD_ID','003');
+define('BUILD_TAG',"\nBUILD ".BUILD_ID.' ['.date('Y-m-d H:i:s').']');
+
 $tstart = explode(' ', microtime());
 $tstart = $tstart[1] + $tstart[0];
 set_time_limit(0);
@@ -40,20 +43,22 @@ echo '<pre>'; /* used for nice formatting of log messages */
 $modx->setLogLevel(modX::LOG_LEVEL_INFO);
 $modx->setLogTarget('ECHO');
  
+$modx->log(modX::LOG_LEVEL_INFO,BUILD_TAG); 
+ 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
 $builder->createPackage(PKG_NAME_LOWER,PKG_VERSION,PKG_RELEASE);
 $builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/'.PKG_NAME_LOWER.'/');
  
  
+ 
+ 
+ 
 // Create Category Vehicle ---------------------------------------------------------------
 	$category= $modx->newObject('modCategory');
 	$category->set('id',1);
 	$category->set('category',PKG_NAME);
- 
-
-// create category vehicle -----------------------------------------------------------------
-	$attr = array(
+ 	$attr = array(
 		xPDOTransport::UNIQUE_KEY => 'category',
 		xPDOTransport::PRESERVE_KEYS => false,
 		xPDOTransport::UPDATE_OBJECT => true,
@@ -120,11 +125,8 @@ unset($settings,$setting,$attributes);
 $modx->log(modX::LOG_LEVEL_INFO,'Adding documentation and setup options...');
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
-    'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
+    'readme' => file_get_contents($sources['docs'] . 'readme.txt').BUILD_TAG,
     'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
-//    'setup-options' => array(
-//        'source' => $sources['build'].'setup.options.php',
-//    ), 
 )); 
 $modx->log(modX::LOG_LEVEL_INFO,'  => OK');
  
