@@ -43,6 +43,7 @@ public function loadCustomCssJs() {
         $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.translations.js');
         $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.translations.tabs.js');
  	    $this->addJavascript($jsUrl.'mgr/widgets/modx.panel.resource.js');
+ 	    $this->addJavascript($jsUrl.'mgr/widgets/modx.combo.languages.js');
  	    $this->addJavascript($jsUrl.'mgr/widgets/modx.window.newtranslation.js');
         $this->addCss($cssUrl.'translations.css');
 

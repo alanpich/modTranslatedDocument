@@ -32,7 +32,7 @@ MODx.window.NewTranslation = function(config) {
             action: 'translation/create'
         }
         ,fields: [{
-            xtype: 'modx-combo-language'
+            xtype: 'modx-combo-languages'
             ,fieldLabel: _('translations.select_language')
             ,name: 'language'
             ,anchor: '100%'
