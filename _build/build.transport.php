@@ -3,7 +3,7 @@
 	v1.0	May 2011
 */
 
-define('BUILD_ID','003');
+define('BUILD_ID','004');
 define('BUILD_TAG',"\nBUILD ".BUILD_ID.' ['.date('Y-m-d H:i:s').']');
 
 $tstart = explode(' ', microtime());
