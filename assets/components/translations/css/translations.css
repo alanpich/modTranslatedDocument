@@ -1,3 +1,10 @@
 @charset "utf-8";
 /* CSS Document */
 
+
+#modx-panel-resource-translations-tabs__newTranslationTab .x-tab-right {
+	background-image:url(img/icon-add_grey.png);
+	background-repeat:no-repeat;
+	background-position:left;
+}
+

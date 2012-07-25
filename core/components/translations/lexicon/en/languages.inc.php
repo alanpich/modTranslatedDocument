@@ -26,3 +26,11 @@ $_lang['translations.language.pt'] = 'Portuguese';
 $_lang['translations.language.ch'] = 'Chinese';
 $_lang['translations.language.nl'] = 'Dutch';
 $_lang['translations.language.ru'] = 'Russian';
+$_lang['translations.language.ja'] = 'Japanese';
+$_lang['translations.language.th'] = 'Thai';
+$_lang['translations.language.sv'] = 'Swedish';
+$_lang['translations.language.et'] = 'Estonian';
+$_lang['translations.language.pl'] = 'Polish';
+$_lang['translations.language.cs'] = 'Czech';
+
+
