@@ -9,7 +9,19 @@ if ($object->xpdo) {
  
             $manager = $modx->getManager();
             $manager->createObjectContainer('Translation');
-             
+			
+			
+			
+			$modx->log(modX::LOG_LEVEL_INFO,'Attempting to bind plugin to event...');
+			
+			$plugin = $modx->getObject('modPlugin',array( 'name' => 'TranslationsGateway'));
+			if($plugin instanceof modPlugin){
+				$modx->log(modX::LOG_LEVEL_INFO,'Plugin not found!!!!!!');
+			} else {
+				$pluginId = $plugin->get('id');
+				$modx->log(modX::LOG_LEVEL_INFO,'New plugin has id #'.$pluginId);
+			};
+            
             break;
         case xPDOTransport::ACTION_UPGRADE:
             break;

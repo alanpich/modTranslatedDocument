@@ -5,7 +5,7 @@
 
 header('Content-Type: text/plain');
 
-define('BUILD_ID','004');
+define('BUILD_ID','001');
 define('BUILD_TAG',"\nBUILD ".BUILD_ID.' ['.date('Y-m-d H:i:s').']');
 
 $tstart = explode(' ', microtime());
@@ -15,8 +15,8 @@ set_time_limit(0);
 /* define package names */
 define('PKG_NAME','Translations');
 define('PKG_NAME_LOWER','translations');
-define('PKG_VERSION','1.0');
-define('PKG_RELEASE','beta1');
+define('PKG_VERSION','1.3');
+define('PKG_RELEASE','sequel');
  
 /* define build paths */
 $root = dirname(dirname(__FILE__)).'/';
@@ -69,7 +69,12 @@ $builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/'.P
 		    'Plugins' => array(
 		        xPDOTransport::PRESERVE_KEYS => false,
 		        xPDOTransport::UPDATE_OBJECT => true,
-		        xPDOTransport::UNIQUE_KEY => 'name',
+		        xPDOTransport::UNIQUE_KEY => 'name'
+			),
+			'PluginEvents' => array(
+				xPDOTransport::PRESERVE_KEYS => false,
+				xPDOTransport::UPDATE_OBJECT => true,
+				xPDOTransport::UNIQUE_KEY => 'id',
 		    ),
 		),
 	);
@@ -81,6 +86,9 @@ $builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/'.P
 	$plugins = include $sources['data'].'transport.plugins.php';
 	if (empty($plugins)) $modx->log(modX::LOG_LEVEL_ERROR,'  => Could not package in plugin.');
 	$category->addMany($plugins);
+	$category->addMany($events);
+	
+	
 
 // Add File Resolvers -------------------------------------------------------------------------
 	$modx->log(modX::LOG_LEVEL_INFO,'Adding file resolvers to category...');
@@ -131,6 +139,10 @@ $builder->setPackageAttributes(array(
     'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
 )); 
 $modx->log(modX::LOG_LEVEL_INFO,'  => OK');
+
+
+
+
  
 // zip up package ------------------------------------------------------------------------------
 	$modx->log(modX::LOG_LEVEL_INFO,'Packing up transport package zip...');

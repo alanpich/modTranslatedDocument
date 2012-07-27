@@ -30,9 +30,14 @@ class modTranslatedDocumentUpdateProcessor extends modResourceUpdateProcessor {
         
         // Get all translated data as arrays
         $translations = $this->getTranslatedFields();
-                 
+		
+		$resId = $this->getProperty('id');
+		
         foreach($translations as $lang => $fields){      
-        	if(	$row = $this->modx->getObject('Translation',$lang)){
+        	if(	$row = $this->modx->getObject('Translation',array(
+				'articleID' => $resId,
+				'language' => $lang
+			))){
 				$row->set('pagetitle',$fields['pagetitle']);
 				$row->set('longtitle',$fields['longtitle']);
 				$row->set('menutitle',$fields['menutitle']);
