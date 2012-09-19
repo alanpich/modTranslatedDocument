@@ -15,8 +15,8 @@ set_time_limit(0);
 /* define package names */
 define('PKG_NAME','Translations');
 define('PKG_NAME_LOWER','translations');
-define('PKG_VERSION','1.3');
-define('PKG_RELEASE','sequel');
+define('PKG_VERSION','1.0.0');
+define('PKG_RELEASE','beta2');
  
 /* define build paths */
 $root = dirname(dirname(__FILE__)).'/';
@@ -41,105 +41,90 @@ require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
  
 $modx= new modX();
 $modx->initialize('mgr');
-//echo '<pre>'; /* used for nice formatting of log messages */
+echo '';
 $modx->setLogLevel(modX::LOG_LEVEL_INFO);
 $modx->setLogTarget('ECHO');
- 
-$modx->log(modX::LOG_LEVEL_INFO,BUILD_TAG); 
  
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
 $builder->createPackage(PKG_NAME_LOWER,PKG_VERSION,PKG_RELEASE);
+
+
+// Register namespace for this extra -------------------------------------------------
 $builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/'.PKG_NAME_LOWER.'/');
+
  
- 
- 
- 
- 
-// Create Category Vehicle ---------------------------------------------------------------
-	$category= $modx->newObject('modCategory');
-	$category->set('id',1);
-	$category->set('category',PKG_NAME);
- 	$attr = array(
-		xPDOTransport::UNIQUE_KEY => 'category',
-		xPDOTransport::PRESERVE_KEYS => false,
-		xPDOTransport::UPDATE_OBJECT => true,
-		xPDOTransport::RELATED_OBJECTS => true,
-		xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
-		    'Plugins' => array(
-		        xPDOTransport::PRESERVE_KEYS => false,
-		        xPDOTransport::UPDATE_OBJECT => true,
-		        xPDOTransport::UNIQUE_KEY => 'name'
-			),
-			'PluginEvents' => array(
-				xPDOTransport::PRESERVE_KEYS => false,
-				xPDOTransport::UPDATE_OBJECT => true,
-				xPDOTransport::UNIQUE_KEY => 'id',
-		    ),
-		),
-	);
-	$vehicle = $builder->createVehicle($category,$attr);
+// Create the plugin object ----------------------------------------------------------
+$plugin= $modx->newObject('modPlugin');
+$plugin->set('id',1);
+$plugin->set('name', 'Translations');
+$plugin->set('locked',true);
+$plugin->set('description', PKG_NAME.' '.PKG_VERSION.'-'.PKG_RELEASE.' plugin for MODx Revolution');
+$plugin->set('plugincode', file_get_contents($sources['source_core'] . '/elements/plugins/translations.plugin.php'));
+$plugin->set('category', 0);
 
 
-// Add Gateway plugin -------------------------------------------------------------------------
-	$modx->log(modX::LOG_LEVEL_INFO,'Packaging in plugin...');
-	$plugins = include $sources['data'].'transport.plugins.php';
-	if (empty($plugins)) $modx->log(modX::LOG_LEVEL_ERROR,'  => Could not package in plugin.');
-	$category->addMany($plugins);
-	$category->addMany($events);
-	
-	
+// Add plugin events -----------------------------------------------------------------
+$events = include $sources['data'].'transport.plugin.events.php';
+if (is_array($events) && !empty($events)) {
+    $plugin->addMany($events);
+} else {
+    $modx->log(xPDO::LOG_LEVEL_ERROR,'Could not find plugin events!');
+}
+$modx->log(xPDO::LOG_LEVEL_INFO,'Packaged in '.count($events).' Plugin Events.'); flush();
+unset($events);
+ 
+ 
+// Define vehicle attributes ----------------------------------------------------------
+$attributes= array(
+    xPDOTransport::UNIQUE_KEY => 'name',
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'PluginEvents' => array(
+            xPDOTransport::PRESERVE_KEYS => true,
+            xPDOTransport::UPDATE_OBJECT => false,
+            xPDOTransport::UNIQUE_KEY => array('pluginid','event'),
+        ),
+    ),
+);
 
-// Add File Resolvers -------------------------------------------------------------------------
-	$modx->log(modX::LOG_LEVEL_INFO,'Adding file resolvers to category...');
-	$vehicle->resolve('file',array(
-		'source' => $sources['source_assets'],
-		'target' => "return MODX_ASSETS_PATH . 'components/';",
-	));
-	$vehicle->resolve('file',array(
-		'source' => $sources['source_core'],
-		'target' => "return MODX_CORE_PATH . 'components/';",
-	));
-	$modx->log(modX::LOG_LEVEL_INFO,'  => Files added OK');
+// Create transport vehicle ------------------------------------------------------------
+$vehicle = $builder->createVehicle($plugin, $attributes);
+
+
+$modx->log(modX::LOG_LEVEL_INFO,'Adding file resolvers...');
+// Add File resolvers ------------------------------------------------------------------
+$vehicle->resolve('file',array(
+    'source' => $sources['source_assets'],
+    'target' => "return MODX_ASSETS_PATH . 'components/';",
+));
+$vehicle->resolve('file',array(
+    'source' => $sources['source_core'],
+    'target' => "return MODX_CORE_PATH . 'components/';",
+));
+
+
+// Build transport vehicle -------------------------------------------------------------
+$builder->putVehicle($vehicle);
+
 
 // Add Resolver Scripts ------------------------------------------------------------------------
-	$modx->log(modX::LOG_LEVEL_INFO,'Adding in PHP resolvers...');
-	$vehicle->resolve('php',array(
-		'source' => $sources['resolvers'] . 'resolve.tables.php',
-	));
-	$modx->log(modX::LOG_LEVEL_INFO,'  => Resolvers added OK');
+$modx->log(modX::LOG_LEVEL_INFO,'Adding in PHP resolvers...');
+$vehicle->resolve('php',array(
+	'source' => $sources['resolvers'] . 'resolve.tables.php',
+));
+$modx->log(modX::LOG_LEVEL_INFO,'  => Resolvers added OK');
 
-// Put Category Vehicle and all contents in the transport package-------------------------------
-	$builder->putVehicle($vehicle); 
- 
-// Add System Settings -------------------------------------------------------------------------
-$modx->log(modX::LOG_LEVEL_INFO,'Adding System Settings...');
-$settings = include $sources['data'].'transport.settings.php';
-if (!is_array($settings)) {
-    $modx->log(modX::LOG_LEVEL_ERROR,'  => Failed');
-} else {
-    $attributes= array(
-        xPDOTransport::UNIQUE_KEY => 'key',
-        xPDOTransport::PRESERVE_KEYS => true,
-        xPDOTransport::UPDATE_OBJECT => false,
-    );
-    foreach ($settings as $setting) {
-        $vehicle = $builder->createVehicle($setting,$attributes);
-        $builder->putVehicle($vehicle);
-    }
-    $modx->log(modX::LOG_LEVEL_INFO,'  => OK');
-}
-unset($settings,$setting,$attributes); 
- 
-// Add documentation files ---------------------------------------------------------------------
-$modx->log(modX::LOG_LEVEL_INFO,'Adding documentation and setup options...');
+
+// Adding in docs ----------------------------------------------------------------------
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt').BUILD_TAG,
     'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
-)); 
-$modx->log(modX::LOG_LEVEL_INFO,'  => OK');
-
+));
+$modx->log(xPDO::LOG_LEVEL_INFO,'Set Package Attributes.'); flush();
 
 
 
@@ -152,5 +137,5 @@ $modx->log(modX::LOG_LEVEL_INFO,'  => OK');
 	$tend= explode(" ", microtime());
 	$tend= $tend[1] + $tend[0];
 	$totalTime= sprintf("%2.4f s",($tend - $tstart));
-	$modx->log(modX::LOG_LEVEL_INFO,"  => Package Built in {$totalTime}s");
+	$modx->log(modX::LOG_LEVEL_INFO,"  => Package Built in {$totalTime}s".BUILD_TAG);
 exit ();
