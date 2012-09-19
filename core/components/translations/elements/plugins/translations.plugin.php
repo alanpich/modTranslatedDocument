@@ -56,7 +56,7 @@ if($event == 'OnHandleRequest' && $modx->context->key != 'mgr'){
   	$lang = $_COOKIE['modx-translations-language'];
   } else {
   // Else Grab browser language
-  	$lang = getBrowserLanguage();
+  	$lang = translations_getBrowserLanguage();
   }; 
   // Allow forceful override
   if(isset($_GET['language'])){
