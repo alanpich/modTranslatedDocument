@@ -7,8 +7,9 @@ cultureKey of the context in which they are requested.
 
 **This Extra is currently in a beta phase, and as such may behave unexpectedly.**
 
+* Install through the package manager
+  - or -
 * Download the beta transport package [here](https://github.com/downloads/alanpich/modTranslatedDocument/translations-1.0.0-beta2.transport.zip) `v1.0.0-beta2`
-* [Installation Guide](https://github.com/alanpich/modTranslatedDocument/blob/beta2/BETA%20INSTALL%20GUIDE.md)
 
 ###Why a custom resource?
 After looking into the best solution for a multi-lingual microsite build in ModX, [Babel](https://github.com/mikrobi/babel/)
