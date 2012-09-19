@@ -1,18 +1,14 @@
 # Translations BETA-1 Install Guide #
 
-1. Install package (will complete, but show error creating DB model)
+1. Install package
 
-2. Re-install package again (this time db table will create succesfully?!?!?!?!?!)
+2. Create a *Translated Document* as you would a normal resource. Save.
 
-3. Attach OnHandleRequest event to plugin *Translations/TranslationGateway*
+3. Once the page has refreshed, switch to the *Translations* tab and select *New Translation*
 
-4. Create a *Translated Document* as you would a normal resource. Save.
+4. Pick your language from the dropdown (This lists all languages currently in the lexicon)
 
-5. Once the page has refreshed, switch to the *Translations* tab and select *New Translation*
-
-6. Pick your language from the dropdown (This lists all languages currently in the lexicon)
-
-7. Add your content to the translation fields
+5. Add your content to the translation fields
 
 6. Visit the page in your browser. 
 

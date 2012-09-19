@@ -1,6 +1,6 @@
 <?php /* Translations Transport Package Builder
 
-	v1.0	May 2011
+	v1.0-beta2	September 2012
 */
 
 header('Content-Type: text/plain');
