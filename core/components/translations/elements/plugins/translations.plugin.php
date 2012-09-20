@@ -64,7 +64,7 @@ if($event == 'OnHandleRequest' && $modx->context->key != 'mgr'){
   };
   
   // Set a cookie for persistance
-  setcookie('modx-translations-language',$lang,time()+ 60*60*24*180);
+  setcookie('modx-translations-language',$lang,time()+ 60*60*24*180,'/');
   // Set modx variables  
   $modx->setOption('cultureKey',$lang);
   $modx->setPlaceholder('language',$lang);
